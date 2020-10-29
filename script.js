@@ -5,8 +5,6 @@ const backgrounds = {
   "night" : []
 };
 
-let indexOfImage = 0;
-
 for (let i = 1; i <= 20; i++) {
   backgrounds["morning"].push(addZero(i));
   backgrounds["day"].push(addZero(i));
@@ -18,7 +16,29 @@ backgrounds["day"].sort(() => Math.random() - 0.5);
 backgrounds["evening"].sort(() => Math.random() - 0.5);
 backgrounds["night"].sort(() => Math.random() - 0.5);
 
-console.log(backgrounds);
+const backgroundsIndexing = {};
+
+for (let i = 0; i < 6; i++) {
+  backgroundsIndexing[i] = `night/${backgrounds["night"][i]}`;
+}
+
+let j = 0;
+for (let i = 6; i < 12; i++) {
+  backgroundsIndexing[i] = `morning/${backgrounds["morning"][j]}`;
+  j++
+}
+j = 0;
+for (let i = 12; i < 18; i++) {
+  backgroundsIndexing[i] = `day/${backgrounds["day"][j]}`;
+  j++
+}
+j = 0;
+for (let i = 18; i < 24; i++) {
+  backgroundsIndexing[i] = `evening/${backgrounds["evening"][j]}`;
+  j++;
+}
+
+console.log(backgroundsIndexing);
 
 
 const time = document.querySelector('.time'),
@@ -31,23 +51,14 @@ const showAmPm = true;
 
 
 function showTime() {
-  const currentHour = document.querySelector(".hour").textContent;
-
   let today = new Date(),
     hour = today.getHours(),
     min = today.getMinutes(),
     sec = today.getSeconds();
 
-  // console.log(indexOfImage);
-
-  if (hour != currentHour && currentHour != "") {
-    if (indexOfImage >= 20) {
-      indexOfImage = 0;
-    } else
-    indexOfImage += 1;
+  if (hour == 0 && min == 0 && sec == 0) {
+    setBgGreet();
   }
-
-  // console.log(indexOfImage);
 
   time.innerHTML = `<span class="hour">${addZero(hour)}</span><span>:</span>${addZero(min)}<span>:</span>${addZero(sec)}`;
 
@@ -63,7 +74,7 @@ function setBgGreet() {
     hour = today.getHours();
 
   let partOfDay = findPartOfDay(hour);
-  document.body.style.backgroundImage = `url(./assets/images/day/${backgrounds[partOfDay][indexOfImage]}.jpg)`;
+  document.body.style.backgroundImage = `url(./assets/images/${backgroundsIndexing[hour]}.jpg)`;
 
   if (partOfDay == 'morning') {
     greeting.textContent = 'Доброе утро, ';
@@ -248,18 +259,29 @@ function getDate() {
 
 getDate();
 
-const nextImageBtn = document.querySelector(".next-background").addEventListener('click',  nextImage);
+const nextImageBtn = document.querySelector(".next-background");
+nextImageBtn.addEventListener('click',  nextImage);
+
 let partOfDay = "morning";
 indexOfImageButton = 0;
 
+let pseudoHour = new Date().getHours();
 function nextImage() {
-  console.log(partOfDay);
-  console.log(`indexOfImageButton: ${indexOfImageButton}`);
-  console.log(`./assets/images/${partOfDay}/${backgrounds[partOfDay][indexOfImageButton]}.jpg`);
-  document.body.style.backgroundImage = `url(./assets/images/${partOfDay}/${backgrounds[partOfDay][indexOfImageButton]}.jpg)`;
+  pseudoHour++;
+  if (pseudoHour == 24) {
+    pseudoHour = 0;
+  }
+  const img = document.createElement('img');
+  img.src = `./assets/images/${backgroundsIndexing[pseudoHour]}.jpg`;
+  img.onload = () => {      
+    document.body.style.backgroundImage = `url(./assets/images/${backgroundsIndexing[pseudoHour]}.jpg)`;
+  }; 
 
-  if (indexOfImageButton > 4) partOfDay = changePartOfDay(partOfDay);
-  indexOfImageButton = indexOfImageButton < 5 ? indexOfImageButton + 1 : 0;
+  console.log(backgroundsIndexing[pseudoHour]);
+  nextImageBtn.removeEventListener('click',  nextImage);
+  setTimeout(() => {
+    nextImageBtn.addEventListener('click',  nextImage);
+  }, 1000)
 }
 
 function findPartOfDay (hour) {
@@ -284,4 +306,109 @@ function changePartOfDay (partOfDay) {
     } else if (partOfDay == "night") {
       return "morning";
     }
+}
+
+let response;
+const quoteSpan = document.querySelector(".quote");
+async function getQuotes () {
+  if (response === undefined) {
+    let answer = await fetch(`https://type.fit/api/quotes`); 
+    response = await answer.json();
+    response = response.splice(0, 100);
+  }
+
+  console.log(response);
+  const quote = response[getRandomArbitrary(0, 100)];
+  quoteSpan.innerHTML = quote["text"] + ( quote["author"] ? `<br> by ${quote["author"]}` : "");
+}
+
+const nextQuoteBtn = document.querySelector(".next-quote");
+nextQuoteBtn.addEventListener('click', getQuotes);
+getQuotes();
+
+function getRandomArbitrary(min, max) {
+  return Math.floor(Math.random() * (max - min) + min);
+}
+
+
+
+
+
+
+
+
+
+
+
+const town = document.querySelector('.town');
+town.addEventListener('click', setTown);
+town.addEventListener('keypress', setTown);
+town.addEventListener('blur', setTown);
+
+
+function getTown() {
+  if (localStorage.getItem('town') === null) {
+    town.textContent = '[Введите город]';
+  } else {
+    town.textContent = localStorage.getItem('town');
+  }
+}
+getTown();
+
+function setTown(e) {
+  const isKeypress = e.type === 'keypress';
+  const isEnterKey = e.which == 13 || e.keyCode == 13;
+
+  localStorage.getItem('town')
+  if ( (e.target.innerText === localStorage.getItem('town') || e.target.innerText == "[Введите город]") && e.bubbles == true && !isKeypress && !isEnterKey) {
+    e.target.innerText = "";
+    return;
+  }
+  
+  if (isKeypress) {
+    if (isEnterKey) {
+      if (e.target.innerText !== "" && e.target.innerText !== "[Введите город]") {
+        localStorage.setItem('town', e.target.innerText);
+        getTown();
+      } else {
+        getTown();
+      }
+      town.blur();
+    }
+  } else {
+    if (e.target.innerText !== "" && e.target.innerText !== "[Введите город]") {
+      localStorage.setItem('town', e.target.innerText);
+      getTown();
+      getWether(e.target.innerText);
+    } else {
+      getTown();
+    }
+  }
+}
+
+
+
+
+
+
+
+if (town.textContent != '[Введите город]') {
+  getWether(town.textContent);
+}
+
+async function getWether (town) {
+  try {
+    url = `https://api.openweathermap.org/data/2.5/weather?q=` + town + `&lang=ru&appid=d329abfd939c5ae85973592bc27eae02&units=metric`;
+    responce = await fetch(url);
+
+    let data = await responce.json();
+    document.querySelector('.temp').innerHTML = Math.round(data['main']['temp']) + " °C";
+    document.querySelector('.air-humidity').innerHTML = data['main']['humidity'] + "%";
+    document.querySelector('.wind-speed').innerHTML = data['wind']['speed'] + " км/ч";
+  
+    console.log(data);
+  } catch (error) {
+    alert("Неправильное название города");
+    return Error;
+  }
 }

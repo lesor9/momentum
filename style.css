@@ -14,7 +14,8 @@ body {
   height: 100vh;
   background-size: cover;
   color: #000000;
-  transition:  background 1s ease-in-out;
+  transition: 1s ease-in-out;
+  background-position: center center;
 }
 
 .time {
@@ -44,6 +45,30 @@ h2 {
   box-shadow: 0 -3px rgb(53,167,110) inset;
   transition: 0.2s;
 }
+
+.quote {
+  margin-top: 40px;
+}
+
+.next-quote {
+  margin-top: 15px;
+  font-weight: 700;
+  color: white;
+  text-decoration: none;
+  padding: .8em 1em calc(.8em + 3px);
+  border-radius: 3px;
+  background: rgb(64,199,129);
+  box-shadow: 0 -3px rgb(53,167,110) inset;
+  transition: 0.2s;
+}
+
+.weather {
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  text-align: left;
+}
+
 
 @media (max-width: 700px) {
   .time {
