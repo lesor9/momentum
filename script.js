@@ -402,11 +402,11 @@ async function getWether (town) {
     responce = await fetch(url);
 
     let data = await responce.json();
+    document.querySelector(".weather-icon").className = "weather-icon owf";
     document.querySelector('.temp').innerHTML = Math.round(data['main']['temp']) + " °C";
     document.querySelector('.air-humidity').innerHTML = data['main']['humidity'] + "%";
     document.querySelector('.wind-speed').innerHTML = data['wind']['speed'] + " км/ч";
-  
-    console.log(data);
+    document.querySelector('.weather-icon').classList.add(`owf-${data.weather[0].id}`);
   } catch (error) {
     alert("Неправильное название города");
     return Error;
