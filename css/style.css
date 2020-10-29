@@ -43,11 +43,11 @@ h2 {
   border-radius: 3px;
   background: rgb(64,199,129);
   box-shadow: 0 -3px rgb(53,167,110) inset;
-  transition: 0.2s;
+  transition: 0.5s;
 }
 
-.quote {
-  margin-top: 40px;
+.next-background:hover {
+  background: rgb(113, 255, 48);
 }
 
 .next-quote {
@@ -59,7 +59,11 @@ h2 {
   border-radius: 3px;
   background: rgb(64,199,129);
   box-shadow: 0 -3px rgb(53,167,110) inset;
-  transition: 0.2s;
+  transition: 0.5s;
+}
+
+.next-quote:hover {
+  background: rgb(113, 255, 48);
 }
 
 .weather {
@@ -69,6 +73,7 @@ h2 {
   text-align: left;
 }
 
+
 .main-weather-block {
   display: flex;
   justify-content: space-around;
@@ -76,6 +81,15 @@ h2 {
 
 .weather-icon {
   font-size: 30px;
+}
+
+.block-quote {
+  margin-top: 40px;
+  width: 400px;
+  height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 
@@ -113,5 +127,13 @@ h2 {
     display: flex;
     justify-content: center;
     column-gap: 10px;
+  }
+
+  .fullGreeting {
+    margin-bottom: 10px;
+  }
+  
+  .quote {
+    margin-top: 10px;
   }
 }
