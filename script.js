@@ -76,7 +76,12 @@ function setBgGreet() {
     hour = today.getHours();
 
   let partOfDay = findPartOfDay(hour);
-  document.body.style.backgroundImage = `url(./assets/images/${backgroundsIndexing[hour]}.jpg)`;
+
+  const img = document.createElement('img');
+  img.src = `./assets/images/${backgroundsIndexing[hour]}.jpg`;
+  img.onload = () => {      
+    document.body.style.backgroundImage = `url(./assets/images/${backgroundsIndexing[hour]}.jpg)`;
+  }; 
 
   if (partOfDay == 'morning') {
     greeting.textContent = 'Доброе утро, ';
