@@ -51,12 +51,14 @@ const showAmPm = true;
 
 
 function showTime() {
+  const dateSpan = document.querySelector(".hour").innerHTML;
+
   let today = new Date(),
     hour = today.getHours(),
     min = today.getMinutes(),
     sec = today.getSeconds();
 
-  if (hour == 0 && min == 0 && sec == 0) {
+  if (hour != dateSpan && min == 0 && sec == 0) {
     setBgGreet();
   }
 
