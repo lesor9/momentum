@@ -59,7 +59,7 @@ function showTime() {
     setBgGreet();
   }
 
-  time.innerHTML = `<span class="hour">${addZero(hour)}</span><span>:</span>${addZero(min)}<span>:</span>${addZero(sec)}`;
+  time.innerHTML = `<span class="hour">${addZero(hour)}</span><span>:</span><span class="min">${addZero(min)}</span><span>:</span><span class="sec">${addZero(sec)}</span>`;
 
   setTimeout(showTime, 1000);
 }
@@ -390,7 +390,7 @@ async function getWether (town) {
     url = `https://api.openweathermap.org/data/2.5/weather?q=` + town + `&lang=ru&appid=d329abfd939c5ae85973592bc27eae02&units=metric`;
     responce = await fetch(url);
     let data = await responce.json();
-    
+
     document.querySelector(".weather-icon").className = "weather-icon owf";
     document.querySelector('.temp').innerHTML = Math.round(data['main']['temp']) + " °C";
     document.querySelector('.air-humidity').innerHTML = data['main']['humidity'] + "%";

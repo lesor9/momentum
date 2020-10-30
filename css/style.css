@@ -21,7 +21,21 @@ body {
 
 .time {
   font-size: 8rem;
+  width: 530px;
+  display: flex;
+  justify-content: space-between;
 }
+
+.hour {
+  width: 150px;
+}
+.min{
+  width: 150px;
+}
+.sec {
+  width: 150px;
+}
+
 
 .date {
   font-size: 3rem;
@@ -99,10 +113,21 @@ h2 {
 @media (max-width: 700px) {
   .time {
     font-size: 6rem;
+    width: 440px;
+  }
+  
+  .hour {
+    width: 120px;
+  }
+  .min{
+    width: 120px;
+  }
+  .sec {
+    width: 120px;
   }
 
   .date {
-    font-size: 1rem;
+    font-size: 1.2rem;
   }
 }
 
@@ -115,6 +140,17 @@ h2 {
 
   .time {
     font-size: 2rem;
+    width: 150px;
+  }
+
+  .hour {
+    width: 50px;
+  }
+  .min{
+    width: 50px;
+  }
+  .sec {
+    width: 50px;
   }
 
   .date {
