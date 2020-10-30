@@ -11,6 +11,7 @@ for (let i = 1; i <= 20; i++) {
   backgrounds["evening"].push(addZero(i));
   backgrounds["night"].push(addZero(i));
 }
+
 backgrounds["morning"].sort(() => Math.random() - 0.5);
 backgrounds["day"].sort(() => Math.random() - 0.5);
 backgrounds["evening"].sort(() => Math.random() - 0.5);
@@ -21,7 +22,6 @@ const backgroundsIndexing = {};
 for (let i = 0; i < 6; i++) {
   backgroundsIndexing[i] = `night/${backgrounds["night"][i]}`;
 }
-
 let j = 0;
 for (let i = 6; i < 12; i++) {
   backgroundsIndexing[i] = `morning/${backgrounds["morning"][j]}`;
@@ -38,7 +38,6 @@ for (let i = 18; i < 24; i++) {
   j++;
 }
 
-console.log(backgroundsIndexing);
 
 
 const time = document.querySelector('.time'),
@@ -46,9 +45,7 @@ const time = document.querySelector('.time'),
   name = document.querySelector('.name'),
   focus = document.querySelector('.focus');
 
-
 const showAmPm = true;
-
 
 function showTime() {
   const dateSpan = document.querySelector(".hour").innerHTML;
@@ -137,7 +134,6 @@ function setName(e) {
   }
 }
 
-
 function getFocus() {
   if (localStorage.getItem('focus') === null) {
     focus.textContent = '[Enter Focus]';
@@ -154,7 +150,6 @@ function setFocus(e) {
 
   localStorage.getItem('focus' )
   if ( (e.target.innerText === localStorage.getItem('focus') || e.target.innerText == "[Enter Focus]") && e.bubbles == true && !isKeypress && !isEnterKey) {
-    console.log("truee");
     e.target.innerText = "";
     return;
   }
@@ -186,7 +181,6 @@ name.addEventListener('blur', setName);
 focus.addEventListener('click', setFocus);
 focus.addEventListener('keypress', setFocus);
 focus.addEventListener('blur', setFocus);
-
 
 showTime();
 setBgGreet();
@@ -286,7 +280,6 @@ function nextImage() {
     document.body.style.backgroundImage = `url(./assets/images/${backgroundsIndexing[pseudoHour]}.jpg)`;
   }; 
 
-  console.log(backgroundsIndexing[pseudoHour]);
   nextImageBtn.removeEventListener('click',  nextImage);
   setTimeout(() => {
     nextImageBtn.addEventListener('click',  nextImage);
@@ -326,7 +319,6 @@ async function getQuotes () {
     response = response.splice(0, 100);
   }
 
-  console.log(response);
   const quote = response[getRandomArbitrary(0, 100)];
   quoteSpan.innerHTML = quote["text"] + ( quote["author"] ? `<br> by ${quote["author"]}` : "");
 }
@@ -338,13 +330,6 @@ getQuotes();
 function getRandomArbitrary(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
 }
-
-
-
-
-
-
-
 
 
 
@@ -396,11 +381,6 @@ function setTown(e) {
 }
 
 
-
-
-
-
-
 if (town.textContent != '[Введите город]') {
   getWether(town.textContent);
 }
@@ -409,8 +389,8 @@ async function getWether (town) {
   try {
     url = `https://api.openweathermap.org/data/2.5/weather?q=` + town + `&lang=ru&appid=d329abfd939c5ae85973592bc27eae02&units=metric`;
     responce = await fetch(url);
-
     let data = await responce.json();
+    
     document.querySelector(".weather-icon").className = "weather-icon owf";
     document.querySelector('.temp').innerHTML = Math.round(data['main']['temp']) + " °C";
     document.querySelector('.air-humidity').innerHTML = data['main']['humidity'] + "%";
