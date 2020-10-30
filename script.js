@@ -83,9 +83,11 @@ function setBgGreet() {
   } else if (partOfDay == 'evening') {
     greeting.textContent = 'Добрый вечер, ';
     document.body.style.color = 'white';
+    document.body.style.textShadow = "0px 0px 20px rgba(0, 0, 0, 0)"
   } else if (partOfDay == 'night') {
     greeting.textContent = 'Доброй ночи, ';
     document.body.style.color = 'white';
+    document.body.style.textShadow = "0px 0px 20px rgba(0, 0, 0, 0)"
   }
 }
 
