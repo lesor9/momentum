@@ -157,4 +157,12 @@ h2 {
   .next-quote {
     margin-top: 2px;
   }
+
+  .fullGreeting {
+    font-size: 28px;
+  }
+
+  .focus-ask {
+    font-size: 20px;
+  }
 }
