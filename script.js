@@ -70,7 +70,7 @@ function addZero(n) {
 }
 
 function setBgGreet() {
-  let today = new Date('December 17, 1995 03:24:00'),
+  let today = new Date(),
     hour = today.getHours();
 
   let partOfDay = findPartOfDay(hour);
